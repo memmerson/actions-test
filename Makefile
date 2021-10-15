@@ -1,17 +1,17 @@
 build:
-  echo "Build"
+	echo "Build"
 
 test:
-  echo "Test"
+	echo "Test"
 
 deploy_dev:
-  echo "Deploy Dev"
+	echo "Deploy Dev"
 
 deploy_stg:
-  echo "Deploy Stg"
+	echo "Deploy Stg"
 
 deploy_prf:
-  echo "Deploy Prf"
+	echo "Deploy Prf"
 
 deploy_prd:
-  echo "Deploy Prd"
+	echo "Deploy Prd"

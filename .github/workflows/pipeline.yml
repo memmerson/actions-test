@@ -9,39 +9,32 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       # # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       # - uses: actions/checkout@v2
 
-      # # Runs a single command using the runners shell
-      # - name: Run a one-line script
-      #   run: echo Hello, world!
-
-      # # Runs a set of commands using the runners shell
-      # - name: Run a multi-line script
-      #   run: |
-      #     echo Add other actions to build,
-      #     echo test, and deploy your project.
       - name: Check out GoCD repository
-        run: git clone --branch master git@github.com:memmerson/pi-sensors.git pi-sensors
+        run: |
+          git clone --branch master git@github.com:memmerson/actions-test actions-test-files
+          cd actions-test-files
 
-      - name:
-        run: cd pi-sensors
+      - name: Run make build
+        run: make build
 
-      - name: 
-        run: python3 -m venv .venv
-
-      - name:
-        run: source .venv/bin/activate
-
-      - name:
-        run: curl https://bootstrap.pypa.io/get-pip.py -o .venv/bin/get-pip.py
-
-      - name:
-        run: pip install -r requirements.txt
+      - name: Run make test
+        run: make test
 
   deploy_dev:
-  deploy_stg:
-  deploy_prf:
-  deploy_prd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out GoCD repository
+        run: |
+          git clone --branch master git@github.com:memmerson/actions-test actions-test-files
+          cd actions-test-files
+
+      - name: Run make test
+        run: make test
+  
+#   deploy_stg:
+#   deploy_prf:
+#   deploy_prd:

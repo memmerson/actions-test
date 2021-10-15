@@ -10,13 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-#       - name: Check out GoCD repository
-#         run: |
-#           git clone --branch master git@github.com:memmerson/actions-test actions-test-files
-#           cd actions-test-files
   
       - name: change directory
         run: cd $GITHUB_WORKSPACE
@@ -29,19 +24,48 @@ jobs:
 
   deploy_dev:
     runs-on: ubuntu-latest
+    environment: 'dev'
+    needs: [build]
     steps:
       - uses: actions/checkout@v2
 
-#       - name: Check out GoCD repository
-#         run: |
-#           git clone --branch master git@github.com:memmerson/actions-test actions-test-files
-#           cd actions-test-files
-
-      - name: Run make test
+      - name: Run make deploy_dev
         run: | 
           cd $GITHUB_WORKSPACE
-          make test
+          make deploy_dev
   
-#   deploy_stg:
-#   deploy_prf:
-#   deploy_prd:
+  deploy_stg:
+    runs-on: ubuntu-latest
+    environment: 'stg'
+    needs: [deploy_dev]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run make deploy_stg
+        run: | 
+          cd $GITHUB_WORKSPACE
+          make deploy_stg
+  
+  deploy_prf:
+    runs-on: ubuntu-latest
+    environment: 'prf'
+    needs: [deploy_stg]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run make deploy_prf
+        run: | 
+          cd $GITHUB_WORKSPACE
+          make deploy_prf
+  
+  deploy_prd:
+    runs-on: ubuntu-latest
+    environment: 'prd'
+    needs: [deploy_stg]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run make deploy_prd
+        run: | 
+          cd $GITHUB_WORKSPACE
+          make deploy_prd

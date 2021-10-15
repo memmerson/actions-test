@@ -11,12 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      # - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      - name: Check out GoCD repository
-        run: |
-          git clone --branch master git@github.com:memmerson/actions-test actions-test-files
-          cd actions-test-files
+#       - name: Check out GoCD repository
+#         run: |
+#           git clone --branch master git@github.com:memmerson/actions-test actions-test-files
+#           cd actions-test-files
+  
+      - name: change directory
+        run: cd $GITHUB_WORKSPACE
 
       - name: Run make build
         run: make build
@@ -27,13 +30,17 @@ jobs:
   deploy_dev:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out GoCD repository
-        run: |
-          git clone --branch master git@github.com:memmerson/actions-test actions-test-files
-          cd actions-test-files
+      - uses: actions/checkout@v2
+
+#       - name: Check out GoCD repository
+#         run: |
+#           git clone --branch master git@github.com:memmerson/actions-test actions-test-files
+#           cd actions-test-files
 
       - name: Run make test
-        run: make test
+        run: | 
+          cd $GITHUB_WORKSPACE
+          make test
   
 #   deploy_stg:
 #   deploy_prf:
